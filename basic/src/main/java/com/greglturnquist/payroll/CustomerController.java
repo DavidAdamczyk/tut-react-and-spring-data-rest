@@ -17,6 +17,7 @@ public class CustomerController {
         this.repository = repository;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/customers")
     List<Customer> all() {
         log.info("GetMapping /customers");
@@ -31,6 +32,7 @@ public class CustomerController {
         return ret;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/customers")
     Customer newCustomer(@RequestBody Customer newCustomer) {
         log.info("PostMapping /customers");
@@ -50,6 +52,7 @@ public class CustomerController {
         return ret;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/customers/{id}")
     Customer replaceCustomer(@RequestBody Customer newCustomer, @PathVariable Long id){
         log.info("PutMapping /customers/{id}");
@@ -58,6 +61,8 @@ public class CustomerController {
         Customer ret = repository.findById(id)
                 .map(customer -> {
                     customer.setName(newCustomer.getName());
+                    customer.setStartWork(newCustomer.getStartWork());
+                    customer.setEndWork(newCustomer.getEndWork());
                     return repository.save(customer);
                 })
                 .orElseGet(() -> {
